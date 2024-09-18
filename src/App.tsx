@@ -1,3 +1,14 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { FeedPage } from './pages/feed'
+
+const router = createBrowserRouter([
+  {
+    path: '/feed',
+    element: <FeedPage />,
+    // errorElement: <ErrorPage />,
+  },
+])
+
 export function App() {
-  return <h2>Bettermode clone</h2>
+  return <RouterProvider router={router} />
 }
