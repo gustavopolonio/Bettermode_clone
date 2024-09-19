@@ -16,7 +16,7 @@ import {
   ScrollText,
   Sun,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function Header() {
   const [isMenuHambOpen, setIsMenuHambOpen] = useState(false)
@@ -25,8 +25,20 @@ export function Header() {
     setIsMenuHambOpen((prev) => !prev)
   }
 
+  useEffect(() => {
+    if (isMenuHambOpen) {
+      document.body.classList.add('no-scroll')
+    } else {
+      document.body.classList.remove('no-scroll')
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll')
+    }
+  }, [isMenuHambOpen])
+
   return (
-    <header className="h-16 flex items-center justify-between shadow-md px-4 relative z-[1]">
+    <header className="sticky top-0 bg-zinc-50 h-16 flex items-center justify-between shadow-md px-4 z-[1]">
       <div className="flex gap-2">
         <button onClick={toggleMenuHamb}>
           <Menu className="size-8" />

@@ -38,8 +38,6 @@ export function Post({ post }: PostProps) {
     return () => window.removeEventListener('resize', checkHeight)
   }, [post.thumbnail])
 
-  console.log(post.owner?.member?.profilePicture?.url)
-
   return (
     <article className="bg-white py-5 px-4 space-y-4 shadow-md border-t-2">
       <header className="flex items-center justify-between">
