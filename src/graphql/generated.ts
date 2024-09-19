@@ -8808,6 +8808,18 @@ export type SubscriptionInput = {
   id: Scalars['String']['input'];
 };
 
+type MediaFields_Emoji_Fragment = { __typename?: 'Emoji', text: string };
+
+type MediaFields_File_Fragment = { __typename?: 'File', url: string };
+
+type MediaFields_Glyph_Fragment = { __typename?: 'Glyph' };
+
+type MediaFields_Image_Fragment = { __typename?: 'Image', url: string, height?: number | null };
+
+export type MediaFieldsFragment = MediaFields_Emoji_Fragment | MediaFields_File_Fragment | MediaFields_Glyph_Fragment | MediaFields_Image_Fragment;
+
+export type PostFieldsFragment = { __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, space?: { __typename?: 'Space', name: string, image?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null };
+
 export type AddReactionMutationVariables = Exact<{
   input: AddReactionInput;
   postId: Scalars['ID']['input'];
@@ -8824,15 +8836,13 @@ export type RemoveReactionMutationVariables = Exact<{
 
 export type RemoveReactionMutation = { __typename?: 'Mutation', removeReaction: { __typename?: 'Action', status: ActionStatus } };
 
-type MediaFields_Emoji_Fragment = { __typename?: 'Emoji', text: string };
+export type GetPostQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+  repliesLimit: Scalars['Int']['input'];
+}>;
 
-type MediaFields_File_Fragment = { __typename?: 'File', url: string };
 
-type MediaFields_Glyph_Fragment = { __typename?: 'Glyph' };
-
-type MediaFields_Image_Fragment = { __typename?: 'Image', url: string, height?: number | null };
-
-export type MediaFieldsFragment = MediaFields_Emoji_Fragment | MediaFields_File_Fragment | MediaFields_Glyph_Fragment | MediaFields_Image_Fragment;
+export type GetPostQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, space?: { __typename?: 'Space', name: string, image?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null } };
 
 export type GetPostsQueryVariables = Exact<{
   filterBy?: InputMaybe<Array<PostListFilterByInput> | PostListFilterByInput>;
@@ -8844,7 +8854,7 @@ export type GetPostsQueryVariables = Exact<{
 }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null }> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean } } };
+export type GetPostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, space?: { __typename?: 'Space', name: string, image?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null }> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean } } };
 
 export const MediaFieldsFragmentDoc = gql`
     fragment MediaFields on Media {
@@ -8860,6 +8870,69 @@ export const MediaFieldsFragmentDoc = gql`
   }
 }
     `;
+export const PostFieldsFragmentDoc = gql`
+    fragment PostFields on Post {
+  id
+  title
+  createdAt
+  fields {
+    key
+    value
+  }
+  space {
+    name
+    image {
+      ...MediaFields
+    }
+  }
+  reactionsCount
+  reactions {
+    reacted
+  }
+  thumbnail {
+    ...MediaFields
+  }
+  owner {
+    member {
+      id
+      name
+      createdAt
+      profilePicture {
+        ...MediaFields
+      }
+    }
+  }
+  replies(limit: $repliesLimit) {
+    nodes {
+      id
+      title
+      fields {
+        key
+        value
+      }
+      reactionsCount
+      reactions {
+        reacted
+      }
+      repliesCount
+      totalRepliesCount
+      thumbnail {
+        ...MediaFields
+      }
+      owner {
+        member {
+          id
+          name
+          createdAt
+          profilePicture {
+            ...MediaFields
+          }
+        }
+      }
+    }
+  }
+}
+    ${MediaFieldsFragmentDoc}`;
 export const AddReactionDocument = gql`
     mutation AddReaction($input: AddReactionInput!, $postId: ID!) {
   addReaction(input: $input, postId: $postId) {
@@ -8928,6 +9001,47 @@ export function useRemoveReactionMutation(baseOptions?: Apollo.MutationHookOptio
 export type RemoveReactionMutationHookResult = ReturnType<typeof useRemoveReactionMutation>;
 export type RemoveReactionMutationResult = Apollo.MutationResult<RemoveReactionMutation>;
 export type RemoveReactionMutationOptions = Apollo.BaseMutationOptions<RemoveReactionMutation, RemoveReactionMutationVariables>;
+export const GetPostDocument = gql`
+    query GetPost($id: ID!, $repliesLimit: Int!) {
+  post(id: $id) {
+    ...PostFields
+  }
+}
+    ${PostFieldsFragmentDoc}`;
+
+/**
+ * __useGetPostQuery__
+ *
+ * To run a query within a React component, call `useGetPostQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      repliesLimit: // value for 'repliesLimit'
+ *   },
+ * });
+ */
+export function useGetPostQuery(baseOptions: Apollo.QueryHookOptions<GetPostQuery, GetPostQueryVariables> & ({ variables: GetPostQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, options);
+      }
+export function useGetPostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, options);
+        }
+export function useGetPostSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, options);
+        }
+export type GetPostQueryHookResult = ReturnType<typeof useGetPostQuery>;
+export type GetPostLazyQueryHookResult = ReturnType<typeof useGetPostLazyQuery>;
+export type GetPostSuspenseQueryHookResult = ReturnType<typeof useGetPostSuspenseQuery>;
+export type GetPostQueryResult = Apollo.QueryResult<GetPostQuery, GetPostQueryVariables>;
 export const GetPostsDocument = gql`
     query GetPosts($filterBy: [PostListFilterByInput!], $postsLimit: Int!, $orderByString: String, $postTypeIds: [String!], $reverse: Boolean, $repliesLimit: Int!) {
   posts(
@@ -8938,66 +9052,14 @@ export const GetPostsDocument = gql`
     reverse: $reverse
   ) {
     nodes {
-      id
-      title
-      createdAt
-      fields {
-        key
-        value
-      }
-      reactionsCount
-      reactions {
-        reacted
-      }
-      thumbnail {
-        ...MediaFields
-      }
-      owner {
-        member {
-          id
-          name
-          createdAt
-          profilePicture {
-            ...MediaFields
-          }
-        }
-      }
-      replies(limit: $repliesLimit) {
-        nodes {
-          id
-          title
-          fields {
-            key
-            value
-          }
-          reactionsCount
-          reactions {
-            reacted
-          }
-          repliesCount
-          totalRepliesCount
-          thumbnail {
-            ...MediaFields
-          }
-          owner {
-            member {
-              id
-              name
-              createdAt
-              profilePicture {
-                ...MediaFields
-              }
-            }
-          }
-        }
-      }
+      ...PostFields
     }
     pageInfo {
       hasNextPage
     }
   }
 }
-    ${MediaFieldsFragmentDoc}`;
+    ${PostFieldsFragmentDoc}`;
 
 /**
  * __useGetPostsQuery__

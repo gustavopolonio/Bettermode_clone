@@ -17,6 +17,7 @@ import {
   Sun,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export function Header() {
   const [isMenuHambOpen, setIsMenuHambOpen] = useState(false)
@@ -44,13 +45,13 @@ export function Header() {
           <Menu className="size-8" />
         </button>
 
-        <a href="/feed">
+        <Link to="/feed">
           <img
             src="https://tribe-s3-production.imgix.net/gCPFqrUCfVkzMEukQKqKs?fit=max&w=1000&auto=compress,format"
             alt="Bettermode"
             className="size-8"
           />
-        </a>
+        </Link>
       </div>
 
       <div className="flex gap-2">

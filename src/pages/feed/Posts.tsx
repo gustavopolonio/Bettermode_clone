@@ -1,101 +1,8 @@
-import { useQuery, gql } from '@apollo/client'
-
+import { useQuery } from '@apollo/client'
 import { GetPostsQuery, GetPostsQueryVariables } from '../../graphql/generated'
-import { Post } from './Post'
-
-export const MEDIA_FIELDS_FRAGMENT = gql`
-  fragment MediaFields on Media {
-    ... on File {
-      url
-    }
-    ... on Image {
-      url
-      height
-    }
-    ... on Emoji {
-      text
-    }
-  }
-`
-
-export const GET_POSTS = gql`
-  query GetPosts(
-    $filterBy: [PostListFilterByInput!]
-    $postsLimit: Int!
-    $orderByString: String
-    $postTypeIds: [String!]
-    $reverse: Boolean
-    $repliesLimit: Int!
-  ) {
-    posts(
-      filterBy: $filterBy
-      limit: $postsLimit
-      orderByString: $orderByString
-      postTypeIds: $postTypeIds
-      reverse: $reverse
-    ) {
-      nodes {
-        id
-        title
-        createdAt
-        fields {
-          key
-          value
-        }
-        reactionsCount
-        reactions {
-          reacted
-        }
-        thumbnail {
-          ...MediaFields
-        }
-        owner {
-          member {
-            id
-            name
-            createdAt
-            profilePicture {
-              ...MediaFields
-            }
-          }
-        }
-        replies(limit: $repliesLimit) {
-          nodes {
-            id
-            title
-            fields {
-              key
-              value
-            }
-            reactionsCount
-            reactions {
-              reacted
-            }
-            repliesCount
-            totalRepliesCount
-            thumbnail {
-              ...MediaFields
-            }
-            owner {
-              member {
-                id
-                name
-                createdAt
-                profilePicture {
-                  ...MediaFields
-                }
-              }
-            }
-          }
-        }
-      }
-      pageInfo {
-        hasNextPage
-      }
-    }
-  }
-  ${MEDIA_FIELDS_FRAGMENT}
-`
+import { Post } from '../../components/Post'
+import { GET_POSTS } from '../../graphql/queries'
+import { Loader } from '../../components/Loader'
 
 export function Posts() {
   const { loading, error, data } = useQuery<
@@ -119,11 +26,16 @@ export function Posts() {
     },
   })
 
-  if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
+  if (loading)
+    return (
+      <div className="mt-11 bg-zinc-50">
+        <Loader />
+      </div>
+    )
 
   return (
-    <main className="bg-zinc-100">
+    <>
       <div className="px-4 py-3 space-y-5">
         <h3 className="text-lg font-medium">Have fun!</h3>
         <div>
@@ -137,8 +49,10 @@ export function Posts() {
       </div>
 
       <div className="space-y-5">
-        {data?.posts.nodes?.map((post) => <Post key={post.id} post={post} />)}
+        {data?.posts.nodes?.map((post) => (
+          <Post key={post.id} post={post} queryToRefetch="GetPosts" />
+        ))}
       </div>
-    </main>
+    </>
   )
 }

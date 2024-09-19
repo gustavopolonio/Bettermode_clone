@@ -1,11 +1,22 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { FeedPage } from './pages/feed'
+import { PostPage } from './pages/post'
+import { Layout } from './pages/layout'
 
 const router = createBrowserRouter([
   {
     path: '/feed',
-    element: <FeedPage />,
-    // errorElement: <ErrorPage />,
+    element: <Layout />,
+    children: [
+      {
+        path: '',
+        element: <FeedPage />,
+      },
+      {
+        path: 'posts/:postId',
+        element: <PostPage />,
+      },
+    ],
   },
 ])
 

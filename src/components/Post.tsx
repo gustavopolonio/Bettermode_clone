@@ -1,53 +1,52 @@
 import { Bell, Ellipsis, Share2, ThumbsUp } from 'lucide-react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
+import { Link } from 'react-router-dom'
 import {
   GetPostsQuery,
   AddReactionMutation,
   AddReactionMutationVariables,
   RemoveReactionMutation,
   RemoveReactionMutationVariables,
-} from '../../graphql/generated'
-import { GET_POSTS } from './Posts'
-import { Loader } from '../../components/Loader'
-
-export const ADD_REACTION = gql`
-  mutation AddReaction($input: AddReactionInput!, $postId: ID!) {
-    addReaction(input: $input, postId: $postId) {
-      status
-    }
-  }
-`
-
-export const REMOVE_REACTION = gql`
-  mutation RemoveReaction($postId: ID!, $reaction: String!) {
-    removeReaction(postId: $postId, reaction: $reaction) {
-      status
-    }
-  }
-`
+} from '../graphql/generated'
+import { GET_POST, GET_POSTS } from '../graphql/queries'
+import { ADD_REACTION, REMOVE_REACTION } from '../graphql/mutations'
+import { Loader } from './Loader'
 
 interface PostProps {
   post: NonNullable<GetPostsQuery['posts']['nodes']>[number]
+  isContentAlwaysVisible?: boolean
+  queryToRefetch: 'GetPost' | 'GetPosts'
 }
 
-export function Post({ post }: PostProps) {
+export function Post({
+  post,
+  isContentAlwaysVisible = false,
+  queryToRefetch,
+}: PostProps) {
+  const queries = {
+    GetPost: GET_POST,
+    GetPosts: GET_POSTS,
+  }
+
   const postContentDivRef = useRef<HTMLDivElement>(null)
   const [hasHiddenContent, setHasHiddenContent] = useState(false)
-  const [isHiddenContentVisible, setIsHiddenContentVisible] = useState(false)
+  const [isHiddenContentVisible, setIsHiddenContentVisible] = useState(
+    isContentAlwaysVisible,
+  )
   const [addReaction, { loading: loadingAddReaction }] = useMutation<
     AddReactionMutation,
     AddReactionMutationVariables
   >(ADD_REACTION, {
-    refetchQueries: [GET_POSTS, 'GetPosts'],
+    refetchQueries: [queries[queryToRefetch], queryToRefetch],
     awaitRefetchQueries: true,
   })
   const [removeReaction, { loading: loadingRemoveReaction }] = useMutation<
     RemoveReactionMutation,
     RemoveReactionMutationVariables
   >(REMOVE_REACTION, {
-    refetchQueries: [GET_POSTS, 'GetPosts'],
+    refetchQueries: [queries[queryToRefetch], queryToRefetch],
     awaitRefetchQueries: true,
   })
 
@@ -98,11 +97,13 @@ export function Post({ post }: PostProps) {
       }
     }
 
-    checkHeight()
-    window.addEventListener('resize', checkHeight)
+    if (!isContentAlwaysVisible) {
+      checkHeight()
+      window.addEventListener('resize', checkHeight)
+    }
 
     return () => window.removeEventListener('resize', checkHeight)
-  }, [post.thumbnail])
+  }, [post.thumbnail, isContentAlwaysVisible])
 
   return (
     <article className="bg-white py-5 px-4 space-y-4 shadow-md border-t-2">
@@ -144,9 +145,9 @@ export function Post({ post }: PostProps) {
         )}
 
         <div ref={postContentDivRef} className="space-y-4">
-          <a href="" className="block">
+          <Link to={`/feed/posts/${post.id}`} className="block">
             <h2 className="text-lg font-medium">{post.title}</h2>
-          </a>
+          </Link>
 
           <div
             className="space-y-5 prose"
