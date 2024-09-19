@@ -41,12 +41,14 @@ export function Post({ post }: PostProps) {
     AddReactionMutationVariables
   >(ADD_REACTION, {
     refetchQueries: [GET_POSTS, 'GetPosts'],
+    awaitRefetchQueries: true,
   })
   const [removeReaction, { loading: loadingRemoveReaction }] = useMutation<
     RemoveReactionMutation,
     RemoveReactionMutationVariables
   >(REMOVE_REACTION, {
     refetchQueries: [GET_POSTS, 'GetPosts'],
+    awaitRefetchQueries: true,
   })
 
   const currentUserReacted =
@@ -179,11 +181,16 @@ export function Post({ post }: PostProps) {
           onClick={() => toggleLikeCount(post.id)}
           className={`w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400 ${currentUserReacted ? 'bg-zinc-200' : ''}`}
         >
-          <ThumbsUp
-            className={`size-4 ${currentUserReacted ? 'fill-zinc-700' : ''}`}
-          />
-          {currentUserReacted ? 'Liked' : 'Like'}
-          {(loadingAddReaction || loadingRemoveReaction) && <Loader />}
+          {loadingAddReaction || loadingRemoveReaction ? (
+            <Loader />
+          ) : (
+            <>
+              <ThumbsUp
+                className={`size-4 ${currentUserReacted ? 'fill-zinc-700' : ''}`}
+              />
+              {currentUserReacted ? 'Liked' : 'Like'}
+            </>
+          )}
         </button>
         <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400">
           <Bell className="size-4" />
