@@ -1,7 +1,32 @@
 import { Bell, Ellipsis, Share2, ThumbsUp } from 'lucide-react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import { GetPostsQuery } from '../../graphql/generated'
+import { gql, useMutation } from '@apollo/client'
+import {
+  GetPostsQuery,
+  AddReactionMutation,
+  AddReactionMutationVariables,
+  RemoveReactionMutation,
+  RemoveReactionMutationVariables,
+} from '../../graphql/generated'
+import { GET_POSTS } from './Posts'
+import { Loader } from '../../components/Loader'
+
+export const ADD_REACTION = gql`
+  mutation AddReaction($input: AddReactionInput!, $postId: ID!) {
+    addReaction(input: $input, postId: $postId) {
+      status
+    }
+  }
+`
+
+export const REMOVE_REACTION = gql`
+  mutation RemoveReaction($postId: ID!, $reaction: String!) {
+    removeReaction(postId: $postId, reaction: $reaction) {
+      status
+    }
+  }
+`
 
 interface PostProps {
   post: NonNullable<GetPostsQuery['posts']['nodes']>[number]
@@ -11,6 +36,24 @@ export function Post({ post }: PostProps) {
   const postContentDivRef = useRef<HTMLDivElement>(null)
   const [hasHiddenContent, setHasHiddenContent] = useState(false)
   const [isHiddenContentVisible, setIsHiddenContentVisible] = useState(false)
+  const [addReaction, { loading: loadingAddReaction }] = useMutation<
+    AddReactionMutation,
+    AddReactionMutationVariables
+  >(ADD_REACTION, {
+    refetchQueries: [GET_POSTS, 'GetPosts'],
+  })
+  const [removeReaction, { loading: loadingRemoveReaction }] = useMutation<
+    RemoveReactionMutation,
+    RemoveReactionMutationVariables
+  >(REMOVE_REACTION, {
+    refetchQueries: [GET_POSTS, 'GetPosts'],
+  })
+
+  const currentUserReacted =
+    (post.reactions &&
+      post.reactions.length > 0 &&
+      post.reactions[0].reacted) ??
+    false
 
   function togglePostContent() {
     setIsHiddenContentVisible((isVisible) => {
@@ -18,6 +61,27 @@ export function Post({ post }: PostProps) {
         postContentDivRef.current?.scrollIntoView({ behavior: 'smooth' })
       return !isVisible
     })
+  }
+
+  function toggleLikeCount(postId: string) {
+    if (currentUserReacted) {
+      removeReaction({
+        variables: {
+          postId,
+          reaction: '+1',
+        },
+      })
+    } else {
+      addReaction({
+        variables: {
+          input: {
+            reaction: '+1',
+            overrideSingleChoiceReactions: true,
+          },
+          postId,
+        },
+      })
+    }
   }
 
   useLayoutEffect(() => {
@@ -111,9 +175,15 @@ export function Post({ post }: PostProps) {
       )}
 
       <footer className="flex items-center justify-between gap-2">
-        <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium bg-zinc-200 rounded-full border-[1px] border-zinc-400">
-          <ThumbsUp className="size-4 fill-zinc-700" />
-          Liked
+        <button
+          onClick={() => toggleLikeCount(post.id)}
+          className={`w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400 ${currentUserReacted ? 'bg-zinc-200' : ''}`}
+        >
+          <ThumbsUp
+            className={`size-4 ${currentUserReacted ? 'fill-zinc-700' : ''}`}
+          />
+          {currentUserReacted ? 'Liked' : 'Like'}
+          {(loadingAddReaction || loadingRemoveReaction) && <Loader />}
         </button>
         <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400">
           <Bell className="size-4" />

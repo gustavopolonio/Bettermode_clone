@@ -43,6 +43,9 @@ export const GET_POSTS = gql`
           value
         }
         reactionsCount
+        reactions {
+          reacted
+        }
         thumbnail {
           ...MediaFields
         }
@@ -65,6 +68,9 @@ export const GET_POSTS = gql`
               value
             }
             reactionsCount
+            reactions {
+              reacted
+            }
             repliesCount
             totalRepliesCount
             thumbnail {

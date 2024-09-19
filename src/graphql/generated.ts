@@ -8808,6 +8808,22 @@ export type SubscriptionInput = {
   id: Scalars['String']['input'];
 };
 
+export type AddReactionMutationVariables = Exact<{
+  input: AddReactionInput;
+  postId: Scalars['ID']['input'];
+}>;
+
+
+export type AddReactionMutation = { __typename?: 'Mutation', addReaction: { __typename?: 'Action', status: ActionStatus } };
+
+export type RemoveReactionMutationVariables = Exact<{
+  postId: Scalars['ID']['input'];
+  reaction: Scalars['String']['input'];
+}>;
+
+
+export type RemoveReactionMutation = { __typename?: 'Mutation', removeReaction: { __typename?: 'Action', status: ActionStatus } };
+
 type MediaFields_Emoji_Fragment = { __typename?: 'Emoji', text: string };
 
 type MediaFields_File_Fragment = { __typename?: 'File', url: string };
@@ -8828,7 +8844,7 @@ export type GetPostsQueryVariables = Exact<{
 }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null }> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean } } };
+export type GetPostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null }> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean } } };
 
 export const MediaFieldsFragmentDoc = gql`
     fragment MediaFields on Media {
@@ -8844,6 +8860,74 @@ export const MediaFieldsFragmentDoc = gql`
   }
 }
     `;
+export const AddReactionDocument = gql`
+    mutation AddReaction($input: AddReactionInput!, $postId: ID!) {
+  addReaction(input: $input, postId: $postId) {
+    status
+  }
+}
+    `;
+export type AddReactionMutationFn = Apollo.MutationFunction<AddReactionMutation, AddReactionMutationVariables>;
+
+/**
+ * __useAddReactionMutation__
+ *
+ * To run a mutation, you first call `useAddReactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddReactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addReactionMutation, { data, loading, error }] = useAddReactionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useAddReactionMutation(baseOptions?: Apollo.MutationHookOptions<AddReactionMutation, AddReactionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddReactionMutation, AddReactionMutationVariables>(AddReactionDocument, options);
+      }
+export type AddReactionMutationHookResult = ReturnType<typeof useAddReactionMutation>;
+export type AddReactionMutationResult = Apollo.MutationResult<AddReactionMutation>;
+export type AddReactionMutationOptions = Apollo.BaseMutationOptions<AddReactionMutation, AddReactionMutationVariables>;
+export const RemoveReactionDocument = gql`
+    mutation RemoveReaction($postId: ID!, $reaction: String!) {
+  removeReaction(postId: $postId, reaction: $reaction) {
+    status
+  }
+}
+    `;
+export type RemoveReactionMutationFn = Apollo.MutationFunction<RemoveReactionMutation, RemoveReactionMutationVariables>;
+
+/**
+ * __useRemoveReactionMutation__
+ *
+ * To run a mutation, you first call `useRemoveReactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveReactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeReactionMutation, { data, loading, error }] = useRemoveReactionMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *      reaction: // value for 'reaction'
+ *   },
+ * });
+ */
+export function useRemoveReactionMutation(baseOptions?: Apollo.MutationHookOptions<RemoveReactionMutation, RemoveReactionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveReactionMutation, RemoveReactionMutationVariables>(RemoveReactionDocument, options);
+      }
+export type RemoveReactionMutationHookResult = ReturnType<typeof useRemoveReactionMutation>;
+export type RemoveReactionMutationResult = Apollo.MutationResult<RemoveReactionMutation>;
+export type RemoveReactionMutationOptions = Apollo.BaseMutationOptions<RemoveReactionMutation, RemoveReactionMutationVariables>;
 export const GetPostsDocument = gql`
     query GetPosts($filterBy: [PostListFilterByInput!], $postsLimit: Int!, $orderByString: String, $postTypeIds: [String!], $reverse: Boolean, $repliesLimit: Int!) {
   posts(
@@ -8862,6 +8946,9 @@ export const GetPostsDocument = gql`
         value
       }
       reactionsCount
+      reactions {
+        reacted
+      }
       thumbnail {
         ...MediaFields
       }
@@ -8884,6 +8971,9 @@ export const GetPostsDocument = gql`
             value
           }
           reactionsCount
+          reactions {
+            reacted
+          }
           repliesCount
           totalRepliesCount
           thumbnail {
