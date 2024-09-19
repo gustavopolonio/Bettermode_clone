@@ -1,5 +1,11 @@
-import { Header } from './header'
+import { Header } from './Header'
+import { Posts } from './Posts'
 
 export function FeedPage() {
-  return <Header />
+  return (
+    <>
+      <Header />
+      <Posts />
+    </>
+  )
 }

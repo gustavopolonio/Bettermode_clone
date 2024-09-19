@@ -26,7 +26,7 @@ export function Header() {
   }
 
   return (
-    <header className="h-16 flex items-center justify-between shadow-md px-4">
+    <header className="h-16 flex items-center justify-between shadow-md px-4 relative z-[1]">
       <div className="flex gap-2">
         <button onClick={toggleMenuHamb}>
           <Menu className="size-8" />
