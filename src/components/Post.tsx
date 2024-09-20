@@ -58,8 +58,13 @@ export function Post({
 
   function togglePostContent() {
     setIsHiddenContentVisible((isVisible) => {
-      if (isVisible)
-        postContentDivRef.current?.scrollIntoView({ behavior: 'smooth' })
+      if (isVisible && postContentDivRef.current) {
+        const { top } = postContentDivRef.current.getBoundingClientRect()
+        window.scroll({
+          top: top + window.scrollY - 64, // 64px => header height
+          behavior: 'smooth',
+        })
+      }
       return !isVisible
     })
   }
@@ -106,7 +111,7 @@ export function Post({
   }, [post.thumbnail, isContentAlwaysVisible])
 
   return (
-    <article className="bg-white py-5 px-4 space-y-4 shadow-md border-t-2">
+    <article className="bg-white py-5 px-4 space-y-4 shadow-md border-t-2 sm:rounded-lg">
       <header className="flex items-center justify-between">
         <div className="flex gap-4">
           {post.owner?.member?.profilePicture?.__typename === 'Image' &&
@@ -126,7 +131,7 @@ export function Post({
             <span className="block font-medium">
               {post.owner?.member?.name}
             </span>
-            <span className="text-xs">
+            <span className="text-xs sm:text-sm">
               {formatDistanceToNow(post.createdAt, { addSuffix: true })}
             </span>
           </div>
@@ -150,7 +155,7 @@ export function Post({
           </Link>
 
           <div
-            className="space-y-5 prose"
+            className="space-y-5 prose max-w-full"
             dangerouslySetInnerHTML={{
               __html:
                 post.fields
@@ -180,7 +185,7 @@ export function Post({
       <footer className="flex items-center justify-between gap-2">
         <button
           onClick={() => toggleLikeCount(post.id)}
-          className={`w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400 ${currentUserReacted ? 'bg-zinc-200' : ''}`}
+          className={`w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400 ${currentUserReacted ? 'bg-zinc-100' : ''} hover:bg-zinc-100 sm:text-sm`}
         >
           {loadingAddReaction || loadingRemoveReaction ? (
             <Loader />
@@ -193,11 +198,11 @@ export function Post({
             </>
           )}
         </button>
-        <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400">
+        <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400 hover:bg-zinc-100 sm:text-sm">
           <Bell className="size-4" />
           Follow
         </button>
-        <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400">
+        <button className="w-full py-2.5 flex items-center justify-center gap-1.5 text-xs font-medium rounded-full border-[1px] border-zinc-400 hover:bg-zinc-100 sm:text-sm">
           <Share2 className="size-4" />
           Share
         </button>

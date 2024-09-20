@@ -3,6 +3,7 @@ import { GetPostsQuery, GetPostsQueryVariables } from '../../graphql/generated'
 import { Post } from '../../components/Post'
 import { GET_POSTS } from '../../graphql/queries'
 import { Loader } from '../../components/Loader'
+import { Sidebar } from '../../components/Sidebar'
 
 export function Posts() {
   const { loading, error, data } = useQuery<
@@ -35,24 +36,28 @@ export function Posts() {
     )
 
   return (
-    <>
-      <div className="px-4 py-3 space-y-5">
-        <h3 className="text-lg font-medium">Have fun!</h3>
-        <div>
-          <button className="py-2 px-5 font-medium text-zinc-600 bg-lime-400 rounded-full">
-            Lastest
-          </button>
-          <button className="py-2 px-5 font-medium text-zinc-600 rounded-full">
-            Recent activity
-          </button>
+    <div className="max-w-[1344px] my-0 mx-auto lg:flex">
+      <Sidebar className="hidden w-[22%] pt-5 pl-5 lg:block" />
+
+      <div className="lg:flex-1">
+        <div className="p-4 space-y-5 lg:p-5">
+          <h3 className="text-lg font-medium sm:text-2xl">Have fun!</h3>
+          <div>
+            <button className="py-2 px-5 font-medium text-zinc-600 bg-lime-400 rounded-full">
+              Lastest
+            </button>
+            <button className="py-2 px-5 font-medium text-zinc-600 rounded-full">
+              Recent activity
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-5 sm:px-[14px] lg:px-5">
+          {data?.posts.nodes?.map((post) => (
+            <Post key={post.id} post={post} queryToRefetch="GetPosts" />
+          ))}
         </div>
       </div>
-
-      <div className="space-y-5">
-        {data?.posts.nodes?.map((post) => (
-          <Post key={post.id} post={post} queryToRefetch="GetPosts" />
-        ))}
-      </div>
-    </>
+    </div>
   )
 }
