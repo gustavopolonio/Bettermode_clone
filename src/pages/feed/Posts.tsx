@@ -30,7 +30,7 @@ export function Posts() {
   if (error) return `Error! ${error.message}`
   if (loading)
     return (
-      <div className="mt-11 bg-zinc-50">
+      <div className="mt-11 bg-zinc-100">
         <Loader />
       </div>
     )
@@ -52,7 +52,7 @@ export function Posts() {
           </div>
         </div>
 
-        <div className="space-y-5 sm:px-[14px] lg:px-5">
+        <div className="space-y-5 sm:px-[14px] pb-5 lg:px-5">
           {data?.posts.nodes?.map((post) => (
             <Post key={post.id} post={post} queryToRefetch="GetPosts" />
           ))}
