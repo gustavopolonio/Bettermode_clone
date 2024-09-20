@@ -11,6 +11,8 @@ import {
   Sun,
 } from 'lucide-react'
 
+import { NavItem } from './NavItem'
+
 interface SidebarProps {
   className?: string
 }
@@ -20,109 +22,75 @@ export function Sidebar({ className }: SidebarProps) {
     <div className={className}>
       <div className="space-y-3">
         <nav className="space-y-1">
-          <a
-            href="#"
-            className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-          >
-            <span className="bg-indigo-400 rounded-full p-1">
-              <House className="size-4" />
-            </span>
-            Home
-          </a>
-          <a
+          <NavItem Icon={House} href="#" title="Home" bgIcon="bg-indigo-400" />
+          <NavItem
+            Icon={List}
             href="/"
-            className="flex items-center gap-3 py-2 px-2.5 bg-zinc-300 rounded-lg"
-          >
-            <span className="bg-indigo-400 rounded-full p-1">
-              <List className="size-4" />
-            </span>
-            Feed
-          </a>
+            title="Feed"
+            bgIcon="bg-indigo-400"
+            active
+          />
         </nav>
         <div className="space-y-4">
           <nav className="space-y-1">
             <h3 className="text-xs font-semibold sm:text-sm">From the Team</h3>
-            <a
+            <NavItem
+              Icon={CalendarCheck2}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-lime-400 rounded-full p-1">
-                <CalendarCheck2 className="size-4" />
-              </span>
-              Events
-            </a>
-            <a
+              title="Events"
+              bgIcon="bg-lime-400"
+            />
+            <NavItem
+              Icon={Megaphone}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-lime-400 rounded-full p-1">
-                <Megaphone className="size-4" />
-              </span>
-              Announcements
-            </a>
+              title="Announcements"
+              bgIcon="bg-lime-400"
+            />
           </nav>
           <nav className="space-y-1">
             <h3 className="text-xs font-semibold sm:text-sm">Connect</h3>
-            <a
+            <NavItem
+              Icon={Network}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-lime-400 rounded-full p-1">
-                <Network className="size-4" />
-              </span>
-              Intros & Networking
-            </a>
-            <a
+              title="Intros & Networking"
+              bgIcon="bg-lime-400"
+            />
+            <NavItem
+              Icon={MessagesSquare}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-lime-400 rounded-full p-1">
-                <MessagesSquare className="size-4" />
-              </span>
-              Ask the Community
-            </a>
+              title="Ask the Community"
+              bgIcon="bg-lime-400"
+            />
           </nav>
           <nav className="space-y-1">
             <h3 className="text-xs font-semibold sm:text-sm">Learn</h3>
-            <a
+            <NavItem
+              Icon={GraduationCap}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-orange-400 rounded-full p-1">
-                <GraduationCap className="size-4" />
-              </span>
-              Academy
-            </a>
-            <a
+              title="Academy"
+              bgIcon="bg-orange-400"
+            />
+            <NavItem
+              Icon={BadgeHelp}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-orange-400 rounded-full p-1">
-                <BadgeHelp className="size-4" />
-              </span>
-              Help Center
-            </a>
+              title="Help Center"
+              bgIcon="bg-orange-400"
+            />
           </nav>
           <nav className="space-y-1">
             <h3 className="text-xs font-semibold sm:text-sm">Product</h3>
-            <a
+            <NavItem
+              Icon={ScrollText}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-orange-400 rounded-full p-1">
-                <ScrollText className="size-4" />
-              </span>
-              Wishlist
-            </a>
-            <a
+              title="Wishlist"
+              bgIcon="bg-orange-400"
+            />
+            <NavItem
+              Icon={Sun}
               href="#"
-              className="flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-zinc-200"
-            >
-              <span className="bg-orange-400 rounded-full p-1">
-                <Sun className="size-4" />
-              </span>
-              Highlights
-            </a>
+              title="Highlightsr"
+              bgIcon="bg-orange-400"
+            />
           </nav>
         </div>
       </div>
