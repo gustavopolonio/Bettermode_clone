@@ -3,6 +3,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
+
 import {
   GetPostsQuery,
   AddReactionMutation,

@@ -1,6 +1,7 @@
 import { Menu, MessageCircleMore, Bell, X, Moon, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import { Sidebar } from './Sidebar'
 
 export function Header() {

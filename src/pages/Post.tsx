@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client'
 import { Link, useParams } from 'react-router-dom'
-import { GetPostQuery, GetPostQueryVariables } from '../../graphql/generated'
-import { GET_POST } from '../../graphql/queries'
-import { Post } from '../../components/Post'
-import { Loader } from '../../components/Loader'
 import { ArrowLeft } from 'lucide-react'
-import { Sidebar } from '../../components/Sidebar'
+
+import { GetPostQuery, GetPostQueryVariables } from '../graphql/generated'
+import { GET_POST } from '../graphql/queries'
+import { Post } from '../components/Post'
+import { Loader } from '../components/Loader'
+import { Sidebar } from '../components/Sidebar'
 
 export function PostPage() {
   const { postId } = useParams()

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { POST_FIELDS_FRAGMENT } from '../fragments'
+import { POST_FIELDS_FRAGMENT } from './fragments'
 
 export const GET_POST = gql`
   query GetPost($id: ID!, $repliesLimit: Int!) {

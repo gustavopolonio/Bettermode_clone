@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client'
-import { GetPostsQuery, GetPostsQueryVariables } from '../../graphql/generated'
 import { useState } from 'react'
-import { Post } from '../../components/Post'
-import { GET_POSTS } from '../../graphql/queries'
-import { Loader } from '../../components/Loader'
-import { Sidebar } from '../../components/Sidebar'
 
-export function Posts() {
+import { GetPostsQuery, GetPostsQueryVariables } from '../graphql/generated'
+import { GET_POSTS } from '../graphql/queries'
+import { Post } from '../components/Post'
+import { Loader } from '../components/Loader'
+import { Sidebar } from '../components/Sidebar'
+
+export function FeedPage() {
   const [isFetchingMorePosts, setIsFetchingMorePosts] = useState(false)
   const { loading, error, data, fetchMore } = useQuery<
     GetPostsQuery,
