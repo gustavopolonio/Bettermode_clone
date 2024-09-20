@@ -16,7 +16,6 @@ export function PostPage() {
   >(GET_POST, {
     variables: {
       id: postId!,
-      repliesLimit: 10,
     },
     skip: !postId,
   })
@@ -34,7 +33,7 @@ export function PostPage() {
   ) : (
     <div className="pb-5 sm:px-[14px] lg:flex-1">
       <div className="px-4 py-3 flex justify-between items-center">
-        <Link to="/feed" className="rounded-full p-2.5 hover:bg-zinc-200">
+        <Link to="/" className="rounded-full p-2.5 hover:bg-zinc-200">
           <ArrowLeft className="size-5" />
         </Link>
         <div className="flex items-center gap-2">

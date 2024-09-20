@@ -31,7 +31,7 @@ export function Header() {
             <Menu className="size-8" />
           </button>
 
-          <Link to="/feed">
+          <Link to="/">
             <img
               src="https://tribe-s3-production.imgix.net/gCPFqrUCfVkzMEukQKqKs?fit=max&w=1000&auto=compress,format"
               alt="Bettermode"

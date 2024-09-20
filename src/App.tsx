@@ -6,7 +6,7 @@ import { Layout } from './pages/Layout'
 
 const router = createBrowserRouter([
   {
-    path: '/feed',
+    path: '/',
     element: <Layout />,
     children: [
       {

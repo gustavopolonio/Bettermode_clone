@@ -27,7 +27,6 @@ export function FeedPage() {
         'at3PgXfPVdzurWL',
         '12HF7mD8Ph0kGpi',
       ],
-      repliesLimit: 10,
     },
   })
 
@@ -49,7 +48,6 @@ export function FeedPage() {
       variables: {
         after: data?.posts.pageInfo.endCursor,
         postsLimit: 10,
-        repliesLimit: 10,
       },
       updateQuery(previousData, { fetchMoreResult }) {
         if (!fetchMoreResult) return previousData

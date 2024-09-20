@@ -47,35 +47,6 @@ export const POST_FIELDS_FRAGMENT = gql`
         }
       }
     }
-    replies(limit: $repliesLimit) {
-      nodes {
-        id
-        title
-        fields {
-          key
-          value
-        }
-        reactionsCount
-        reactions {
-          reacted
-        }
-        repliesCount
-        totalRepliesCount
-        thumbnail {
-          ...MediaFields
-        }
-        owner {
-          member {
-            id
-            name
-            createdAt
-            profilePicture {
-              ...MediaFields
-            }
-          }
-        }
-      }
-    }
   }
   ${MEDIA_FIELDS_FRAGMENT}
 `

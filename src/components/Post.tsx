@@ -151,7 +151,7 @@ export function Post({
         )}
 
         <div ref={postContentDivRef} className="space-y-4">
-          <Link to={`/feed/posts/${post.id}`} className="block">
+          <Link to={`/posts/${post.id}`} className="block">
             <h2 className="text-lg font-medium">{post.title}</h2>
           </Link>
 
