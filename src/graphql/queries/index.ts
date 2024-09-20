@@ -18,6 +18,7 @@ export const GET_POSTS = gql`
     $postTypeIds: [String!]
     $reverse: Boolean
     $repliesLimit: Int!
+    $after: String
   ) {
     posts(
       filterBy: $filterBy
@@ -25,12 +26,13 @@ export const GET_POSTS = gql`
       orderByString: $orderByString
       postTypeIds: $postTypeIds
       reverse: $reverse
+      after: $after
     ) {
       nodes {
         ...PostFields
       }
       pageInfo {
-        hasNextPage
+        endCursor
       }
     }
   }

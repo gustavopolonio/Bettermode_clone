@@ -12,6 +12,15 @@ const client = new ApolloClient({
     possibleTypes: {
       Media: ['Emoji', 'File', 'Image'],
     },
+    typePolicies: {
+      Query: {
+        fields: {
+          posts: {
+            keyArgs: false,
+          },
+        },
+      },
+    },
   }),
   headers: {
     authorization: import.meta.env.VITE_ACCESS_TOKEN,

@@ -8851,10 +8851,11 @@ export type GetPostsQueryVariables = Exact<{
   postTypeIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
   repliesLimit: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, space?: { __typename?: 'Space', name: string, image?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null }> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean } } };
+export type GetPostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, createdAt: any, reactionsCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, space?: { __typename?: 'Space', name: string, image?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null, replies?: { __typename?: 'PaginatedPost', nodes?: Array<{ __typename?: 'Post', id: string, title?: string | null, reactionsCount: number, repliesCount: number, totalRepliesCount: number, fields?: Array<{ __typename?: 'CustomField', key: string, value?: string | null }> | null, reactions?: Array<{ __typename?: 'PostReactionDetail', reacted: boolean }> | null, thumbnail?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null, owner?: { __typename?: 'SpaceMember', member?: { __typename?: 'Member', id: string, name?: string | null, createdAt: any, profilePicture?: { __typename?: 'Emoji', text: string } | { __typename?: 'File', url: string } | { __typename?: 'Glyph' } | { __typename?: 'Image', url: string, height?: number | null } | null } | null } | null }> | null } | null }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null } } };
 
 export const MediaFieldsFragmentDoc = gql`
     fragment MediaFields on Media {
@@ -9043,19 +9044,20 @@ export type GetPostLazyQueryHookResult = ReturnType<typeof useGetPostLazyQuery>;
 export type GetPostSuspenseQueryHookResult = ReturnType<typeof useGetPostSuspenseQuery>;
 export type GetPostQueryResult = Apollo.QueryResult<GetPostQuery, GetPostQueryVariables>;
 export const GetPostsDocument = gql`
-    query GetPosts($filterBy: [PostListFilterByInput!], $postsLimit: Int!, $orderByString: String, $postTypeIds: [String!], $reverse: Boolean, $repliesLimit: Int!) {
+    query GetPosts($filterBy: [PostListFilterByInput!], $postsLimit: Int!, $orderByString: String, $postTypeIds: [String!], $reverse: Boolean, $repliesLimit: Int!, $after: String) {
   posts(
     filterBy: $filterBy
     limit: $postsLimit
     orderByString: $orderByString
     postTypeIds: $postTypeIds
     reverse: $reverse
+    after: $after
   ) {
     nodes {
       ...PostFields
     }
     pageInfo {
-      hasNextPage
+      endCursor
     }
   }
 }
@@ -9079,6 +9081,7 @@ export const GetPostsDocument = gql`
  *      postTypeIds: // value for 'postTypeIds'
  *      reverse: // value for 'reverse'
  *      repliesLimit: // value for 'repliesLimit'
+ *      after: // value for 'after'
  *   },
  * });
  */
