@@ -2,7 +2,7 @@
 
 <p align="center">
    <img 
-      src="https://https://github.com/gustavopolonio/Bettermode_clone/blob/main/.github/feedPage.png" 
+      src="https://github.com/gustavopolonio/Bettermode_clone/blob/master/.github/feedPage.png"
       width="740"
     />
 </p>
@@ -55,7 +55,7 @@ After copying the examples, make sure to fill the `VITE_ACCESS_TOKEN` variable w
 npm run dev
 ```
 
-**Important note**
+#### Important note
 All GraphQL queries and mutations are typed by `graphql-codegen`. However, if you change the structures of `gql` functions you need to generate new types by running:
 
 ```bash
