@@ -9,7 +9,9 @@ import { Sidebar } from '../components/Sidebar'
 
 export function FeedPage() {
   const [isFetchingMorePosts, setIsFetchingMorePosts] = useState(false)
-  const { loading, error, data, fetchMore } = useQuery<
+  const [isRefetchingPosts, setIsRefetchingPosts] = useState(false)
+  const [postsOrder, setPostsOrder] = useState('publishedAt')
+  const { loading, error, data, fetchMore, refetch } = useQuery<
     GetPostsQuery,
     GetPostsQueryVariables
   >(GET_POSTS, {
@@ -29,6 +31,17 @@ export function FeedPage() {
       repliesLimit: 10,
     },
   })
+
+  function getPosts(orderByString: string) {
+    setIsRefetchingPosts(true)
+
+    refetch({
+      orderByString,
+    }).finally(() => {
+      setPostsOrder(orderByString)
+      setIsRefetchingPosts(false)
+    })
+  }
 
   function loadAdditionalPosts() {
     setIsFetchingMorePosts(true)
@@ -72,28 +85,39 @@ export function FeedPage() {
       <div className="pb-5 lg:flex-1 sm:px-[14px] lg:px-8">
         <div className="p-4 space-y-5 sm:px-0 lg:py-5">
           <h3 className="text-lg font-medium sm:text-2xl">Have fun!</h3>
-          <div>
-            <button className="py-2 px-5 font-medium text-zinc-600 bg-lime-400 rounded-full">
-              Lastest
+          <div className="space-x-1">
+            <button
+              onClick={() => getPosts('publishedAt')}
+              className={`py-2 px-5 font-medium text-zinc-600 rounded-full ${postsOrder === 'publishedAt' ? 'bg-lime-400' : ''} hover:bg-lime-400`}
+            >
+              Latest
             </button>
-            <button className="py-2 px-5 font-medium text-zinc-600 rounded-full">
+            <button
+              onClick={() => getPosts('lastActivityAt')}
+              className={`py-2 px-5 font-medium text-zinc-600 rounded-full ${postsOrder === 'lastActivityAt' ? 'bg-lime-400' : ''} hover:bg-lime-400`}
+            >
               Recent activity
             </button>
           </div>
         </div>
 
-        <div className="space-y-5">
-          {data?.posts.nodes?.map((post) => (
-            <Post key={post.id} post={post} queryToRefetch="GetPosts" />
-          ))}
-        </div>
-
-        <button
-          onClick={loadAdditionalPosts}
-          className="mt-5 text-xs font-medium w-full h-10 bg-white rounded-full border-[1px] border-zinc-400 hover:bg-zinc-100 md:text-sm"
-        >
-          {isFetchingMorePosts ? <Loader /> : 'Show more'}
-        </button>
+        {isRefetchingPosts ? (
+          <Loader />
+        ) : (
+          <>
+            <div className="space-y-5">
+              {data?.posts.nodes?.map((post) => (
+                <Post key={post.id} post={post} queryToRefetch="GetPosts" />
+              ))}
+            </div>
+            <button
+              onClick={loadAdditionalPosts}
+              className="mt-5 text-xs font-medium w-full h-10 bg-white rounded-full border-[1px] border-zinc-400 hover:bg-zinc-100 md:text-sm"
+            >
+              {isFetchingMorePosts ? <Loader /> : 'Show more'}
+            </button>
+          </>
+        )}
       </div>
     </div>
   )
